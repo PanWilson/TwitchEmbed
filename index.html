@@ -3,8 +3,8 @@
 <script>
     var url_string = window.location.href; //window.location.href
     var url = new URL(url_string);
-    var c = url.searchParams.get("l1");
-    var b = url.searchParams.get("l2");
+    var c = 'https://www.youtube.com/embed/' + url.searchParams.get("l1");
+    var b = 'https://www.youtube.com/embed/' + url.searchParams.get("l2");
     document.getElementById("video1").src = c;
     document.getElementById("video2").src = b;
 </script>
