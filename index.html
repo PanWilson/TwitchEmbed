@@ -26,12 +26,9 @@
   // 3. This function creates an <iframe> (and YouTube player)
   //    after the API code downloads.
   var player;
-
   function onYouTubeIframeAPIReady() {
     player = new YT.Player('video1', {
-      height: '360',
-      width: '640',
-      videoId: 'M7lc1UVf-VE',
+      videoId: 'JEffNzKjQv0',
       events: {
         'onReady': onPlayerReady,
         'onStateChange': onPlayerStateChange
@@ -74,3 +71,4 @@
     document.getElementById("video2").src = b;
   }
 </script>
+
