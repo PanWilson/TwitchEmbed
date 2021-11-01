@@ -1,10 +1,25 @@
-<iframe id="video1" width="1080"  src="https://www.youtube.com/embed/W3zYS7Hh0rw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-<iframe id="video2" width="1080"  src="https://www.youtube.com/embed/W3zYS7Hh0rw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<div style="display: flex; width: 100%;">
+  <div style="width: 69%;"> 
+    <iframe id="video1" style="width: 100%;"  src="https://www.youtube.com/embed/W3zYS7Hh0rw" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
+  </div>
+  <div style="flex-grow:1;">
+    <iframe id="video2" style="width: 100%" src="https://www.youtube.com/embed/W3zYS7Hh0rw" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
+    </div>
+</div>
+
+
+
 <script>
     var url_string = window.location.href; //window.location.href
     var url = new URL(url_string);
-    var c = 'https://www.youtube.com/embed/' + url.searchParams.get("l1");
-    var b = 'https://www.youtube.com/embed/' + url.searchParams.get("l2");
-    document.getElementById("video1").src = c;
-    document.getElementById("video2").src = b;
+    var c;
+    var b;
+    if(!!url.searchParams.get("l1")){
+    	c = 'https://www.youtube.com/embed/' + url.searchParams.get("l1");
+      document.getElementById("video1").src = c;
+    }
+    if(!!url.searchParams.get("l2")){
+    	b = 'https://www.youtube.com/embed/' + url.searchParams.get("l2");
+    	document.getElementById("video2").src = b;
+    }
 </script>
