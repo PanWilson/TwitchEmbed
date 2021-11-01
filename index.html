@@ -2,13 +2,13 @@
 
   <head></head>
 
-  <body style="margin: 0px; height:100vh;">
+  <body style="margin: 0px; height:100vh; background-color: black;">
     <div style="display: flex; width: 100%; height:95%;">
       <div style="width: 83%;">
-        <iframe id="video1" type="text/html" style="width: 100%; height:100%;" src="https://www.youtube.com/embed/JEffNzKjQv0?enablejsapi=1&origin=https://panwilson.github.io/TwitchEmbed/" frameborder="0" allow="autoplay;" allowfullscreen></iframe>
+        <iframe id="video1" style="width: 100%; height:100%;" src="https://www.youtube.com/embed/JEffNzKjQv0?enablejsapi=1&start=1" frameborder="0" allow="autoplay;" allowfullscreen></iframe>
       </div>
       <div style="flex-grow:1;">
-        <iframe id="video2" style="width: 100%; height:100%;" src="https://www.youtube.com/embed/uXY7oV6v-Gs?enablejsapi=1" frameborder="0" allowfullscreen></iframe>
+        <iframe id="video2" style="width: 100%; height:100%;" src="https://www.youtube.com/embed/uXY7oV6v-Gs?enablejsapi=1&start=1&mute=1&controls=0" frameborder="0" allowfullscreen></iframe>
       </div>
     </div>
   </body>
@@ -25,54 +25,56 @@
 
   // 3. This function creates an <iframe> (and YouTube player)
   //    after the API code downloads.
-  var player;
+  var player1;
+  var player2;
+
   function onYouTubeIframeAPIReady() {
-    player = new YT.Player('video1', {
-      videoId: 'JEffNzKjQv0',
+    player1 = new YT.Player('video1', {
       events: {
-        'onReady': onPlayerReady,
-        'onStateChange': onPlayerStateChange
+        'onStateChange': onPlayer1StateChange,
+        'onPlaybackRateChange': onPlayer1PlaybackChanged
       }
     });
-    setTimeout(startVideo, 6000);
+    player2 = new YT.Player('video2', {
+      events: {
+        'onStateChange': onPlayer2StateChange
+      }
+    });
   }
 
-  // 4. The API will call this function when the video player is ready.
-  function onPlayerReady(event) {
-    event.target.playVideo();
-  }
 
-  // 5. The API calls this function when the player's state changes.
-  //    The function indicates that when playing a video (state=1),
-  //    the player should play for six seconds and then stop.
-  var done = false;
-
-  function onPlayerStateChange(event) {
-    if (event.data == YT.PlayerState.PLAYING && !done) {
-      setTimeout(stopVideo, 6000);
-      done = true;
+  function onPlayer1StateChange(event) {
+    if (event.data == YT.PlayerState.PLAYING) {
+      player2.playVideo();
+      player2.seekTo(player1.getCurrentTime());
+    }
+    if (event.data == YT.PlayerState.PAUSED) {
+      player2.pauseVideo();
+      player2.seekTo(player1.getCurrentTime());
     }
   }
+  
+  function onPlayer1PlaybackChanged(event) {
+		player2.setPlaybackRate(player1.getPlaybackRate());
+  }
 
-  function stopVideo() {
-    player.stopVideo();
+  function onPlayer2StateChange(event) {
+
   }
-  function startVideo() {
-    player.playVideo();
-  }
-  
-  
+
+
+
   var url_string = window.location.href; //window.location.href
   var url = new URL(url_string);
   var c;
   var b;
   if (!!url.searchParams.get("l1")) {
-    c = 'https://www.youtube.com/embed/' + url.searchParams.get("l1") + '?enablejsapi=1';
+    c = 'https://www.youtube.com/embed/' + url.searchParams.get("l1") + '?enablejsapi=1&start=1';
     document.getElementById("video1").src = c;
   }
   if (!!url.searchParams.get("l2")) {
-    b = 'https://www.youtube.com/embed/' + url.searchParams.get("l2") + '?enablejsapi=1';
+    b = 'https://www.youtube.com/embed/' + url.searchParams.get("l2") + '?enablejsapi=1&start=1&mute=1&controls=0';
     document.getElementById("video2").src = b;
   }
-</script>
 
+</script>
