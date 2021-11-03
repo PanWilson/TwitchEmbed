@@ -12,7 +12,7 @@
       </div>
     </div>
   </body>
-
+<input id="chatDelay" placeholder="Chat Delay" type="number" style="float: right; background-color: #303030; color: white; border: none;" step="0.01">
 </html>
 
 <script>
@@ -46,11 +46,11 @@
   function onPlayer1StateChange(event) {
     if (event.data == YT.PlayerState.PLAYING) {
       player2.playVideo();
-      player2.seekTo(player1.getCurrentTime());
+      syncToMainVideo();
     }
     if (event.data == YT.PlayerState.PAUSED) {
       player2.pauseVideo();
-      player2.seekTo(player1.getCurrentTime());
+      syncToMainVideo();
     }
   }
   
@@ -60,6 +60,11 @@
 
   function onPlayer2StateChange(event) {
 
+  }
+  
+  function syncToMainVideo(){
+  	var delay = document.getElementById('chatDelay').value;
+  	player2.seekTo(player1.getCurrentTime() - delay);
   }
 
 
